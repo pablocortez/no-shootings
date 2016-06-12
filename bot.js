@@ -17,6 +17,7 @@ function gotData(err, data, response) {
     console.log("There are no tweets about that right now.");
   } else {
     console.log("There was a shooting today. #NoMoreShootings");
+    tweetAboutShooting();
   }
   for(var i = 0; i < tweets.length; i++) {
     console.log((i+1) + ".- " + tweets[i].text);
@@ -28,12 +29,26 @@ function isEmpty(obj) {
 }
 
 // Search Twitter for words "shooting in US, mass shooting in US"
+
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth()+1; //January is 0!
+
+var yyyy = today.getFullYear();
+if(dd<10){
+    dd='0'+dd
+}
+if(mm<10){
+    mm='0'+mm
+}
+var today = yyyy+'-'+mm+'-'+dd;
+
 var params = {
-  q: 'today mass shooting US since:2016-06-11',
+  q: 'today mass shooting US since:' + today,
   count: 5
 }
 
-setInterval(checkAndTweet, 1000*5);
+setInterval(checkAndTweet, 1000*60*60*6);
 
 
 //
